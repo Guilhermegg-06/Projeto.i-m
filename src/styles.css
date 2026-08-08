@@ -1974,7 +1974,7 @@ h2 {
 
   .hero h1 {
     margin-bottom: 22px;
-    font-size: clamp(3.4rem, 15vw, 4.8rem);
+    font-size: clamp(3.15rem, 13.6vw, 4rem);
     line-height: 0.93;
   }
 
@@ -2214,7 +2214,7 @@ h2 {
   }
 
   .hero h1 {
-    font-size: 3.25rem;
+    font-size: 3.05rem;
   }
 
   .hero-stat strong {

@@ -8,7 +8,7 @@ import {
   CircleDollarSign,
   Compass,
   Gem,
-  Instagram,
+  Camera,
   Mail,
   MessageCircle,
   Quote,
@@ -67,7 +67,7 @@ function App() {
         <section ref={heroRef} id="inicio" className="hero section-anchor">
           <div className="hero__media" aria-hidden="true">
             <motion.img
-              src="/assets/imvester-hero-architecture.png"
+              src="/assets/imvester-hero-architecture.webp"
               alt=""
               width="1536"
               height="1024"
@@ -427,7 +427,7 @@ function App() {
                   <ArrowUpRight aria-hidden="true" />
                 </a>
                 <a href={links.instagram} target="_blank" rel="noreferrer">
-                  <Instagram aria-hidden="true" />
+                  <Camera aria-hidden="true" />
                   <span><small>Instagram</small><strong>@imvester.br</strong></span>
                   <ArrowUpRight aria-hidden="true" />
                 </a>

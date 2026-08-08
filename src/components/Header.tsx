@@ -138,7 +138,7 @@ export function Header() {
               initial={reduceMotion ? false : { x: '100%' }}
               animate={{ x: 0 }}
               exit={{ x: '100%' }}
-              transition={{ duration: 0.46, ease: [0.22, 1, 0.36, 1] }}
+              transition={reduceMotion ? { duration: 0 } : { duration: 0.46, ease: [0.22, 1, 0.36, 1] }}
             >
               <div className="mobile-menu__top">
                 <Brand />
