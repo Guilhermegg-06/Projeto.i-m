@@ -500,7 +500,18 @@
     inset -5px -8px 14px rgba(0, 0, 0, 0.42),
     26px 42px 84px rgba(0, 0, 0, 0.38);
   transform-style: preserve-3d;
+  cursor: pointer;
+  outline: 0;
+  touch-action: pan-y;
   will-change: transform;
+}
+
+.investment-device:focus-visible {
+  border-color: rgba(233, 120, 61, 0.78);
+  box-shadow:
+    inset 0 1px 1px rgba(255, 255, 255, 0.24),
+    0 0 0 5px rgba(233, 120, 61, 0.1),
+    26px 42px 84px rgba(0, 0, 0, 0.38);
 }
 
 .investment-device::before {
@@ -533,10 +544,23 @@
 
 .investment-device__screen::after {
   position: absolute;
+  z-index: 0;
   inset: 0;
   content: '';
   background: linear-gradient(116deg, rgba(255, 255, 255, 0.1), transparent 18%, transparent 70%, rgba(255, 255, 255, 0.035));
   pointer-events: none;
+}
+
+.investment-device__glare {
+  position: absolute;
+  z-index: 0;
+  width: 150px;
+  height: 150px;
+  background: radial-gradient(circle, rgba(255, 255, 255, 0.13), transparent 68%);
+  border-radius: 50%;
+  filter: blur(4px);
+  pointer-events: none;
+  transform: translate(-50%, -50%);
 }
 
 .investment-device__topline,
@@ -570,13 +594,43 @@
   margin-top: 26px;
 }
 
-.investment-device__progress span {
-  height: 2px;
-  background: rgba(240, 242, 237, 0.15);
+.investment-device__progress button {
+  position: relative;
+  height: 24px;
+  padding: 0;
+  background: transparent;
+  border: 0;
+  cursor: pointer;
 }
 
-.investment-device__progress span.is-complete {
+.investment-device__progress button span {
+  position: absolute;
+  top: 50%;
+  right: 0;
+  left: 0;
+  display: block;
+  height: 2px;
+  background: rgba(240, 242, 237, 0.15);
+  transform: translateY(-50%);
+  transition:
+    background 260ms ease,
+    box-shadow 260ms ease,
+    transform 260ms var(--ease-premium);
+}
+
+.investment-device__progress button.is-complete span {
   background: var(--orange-400);
+}
+
+.investment-device__progress button[aria-pressed='true'] span {
+  background: #ff9d66;
+  box-shadow: 0 0 12px rgba(233, 120, 61, 0.7);
+  transform: translateY(-50%) scaleY(2.4);
+}
+
+.investment-device__progress button:focus-visible {
+  outline: 1px solid rgba(240, 242, 237, 0.72);
+  outline-offset: -5px;
 }
 
 .investment-device__content {
@@ -617,15 +671,38 @@
 }
 
 .investment-device__footer {
-  padding-top: 16px;
+  gap: 8px;
+  padding-top: 12px;
   color: #9dacA2;
   border-top: 1px solid rgba(240, 242, 237, 0.12);
   font-size: 0.62rem;
 }
 
-.investment-device__footer span:last-child {
+.investment-device__footer button {
+  min-height: 32px;
+  padding: 0;
+  color: #dce4de;
+  background: transparent;
+  border: 0;
+  font: inherit;
+  font-weight: 680;
+  cursor: pointer;
+  transition: color 240ms ease, transform 240ms var(--ease-premium);
+}
+
+.investment-device__footer button:hover,
+.investment-device__footer button:focus-visible {
   color: var(--orange-400);
-  font-size: 1rem;
+  outline: 0;
+  transform: translateY(-1px);
+}
+
+.investment-device__footer > span {
+  color: rgba(157, 172, 162, 0.64);
+  font-size: 0.52rem;
+  letter-spacing: 0.05em;
+  text-align: center;
+  text-transform: uppercase;
 }
 
 .investment-device-stage__shadow {
@@ -828,6 +905,10 @@
     border-radius: 25px;
   }
 
+  .investment-device__progress button {
+    height: 28px;
+  }
+
   .investment-device__content strong {
     font-size: 1.72rem;
   }
@@ -835,6 +916,16 @@
   .investment-device__content p {
     font-size: 0.7rem;
     -webkit-line-clamp: 4;
+  }
+
+  .investment-device__footer {
+    margin-inline: -2px;
+  }
+
+  .investment-device__footer > span {
+    max-width: 54px;
+    font-size: 0.46rem;
+    line-height: 1.25;
   }
 
   .profile-stage {

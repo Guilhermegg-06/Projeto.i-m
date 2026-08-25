@@ -5,16 +5,15 @@ import { InvestmentDevice } from './InvestmentDevice'
 
 export function InvestorJourney() {
   const [activeStep, setActiveStep] = useState(0)
-  const currentStep = investorSteps[activeStep]
 
   return (
     <div className="journey-layout">
-      <div className="journey-visual" aria-hidden="true">
+      <div className="journey-visual">
         <div className="journey-visual__frame">
           <InvestmentDevice
-            step={currentStep}
+            steps={investorSteps}
             activeIndex={activeStep}
-            total={investorSteps.length}
+            onChange={setActiveStep}
           />
         </div>
       </div>
