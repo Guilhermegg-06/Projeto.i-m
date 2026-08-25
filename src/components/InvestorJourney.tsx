@@ -1,46 +1,21 @@
-import { AnimatePresence, motion, useReducedMotion, useScroll, useTransform } from 'framer-motion'
-import { useRef, useState } from 'react'
+import { motion } from 'framer-motion'
+import { useState } from 'react'
 import { investorSteps } from '../content'
+import { InvestmentDevice } from './InvestmentDevice'
 
 export function InvestorJourney() {
-  const sectionRef = useRef<HTMLDivElement>(null)
   const [activeStep, setActiveStep] = useState(0)
-  const reduceMotion = useReducedMotion()
-  const { scrollYProgress } = useScroll({
-    target: sectionRef,
-    offset: ['start end', 'end start'],
-  })
-  const objectY = useTransform(scrollYProgress, [0, 1], [-34, 34])
-  const objectRotate = useTransform(scrollYProgress, [0, 1], [-18, 34])
   const currentStep = investorSteps[activeStep]
 
   return (
-    <div ref={sectionRef} className="journey-layout">
+    <div className="journey-layout">
       <div className="journey-visual" aria-hidden="true">
         <div className="journey-visual__frame">
-          <motion.div
-            className="journey-object"
-            style={reduceMotion ? undefined : { y: objectY, rotate: objectRotate }}
-          >
-            <span className="journey-object__shell" />
-            <span className="journey-object__orbit journey-object__orbit--one" />
-            <span className="journey-object__orbit journey-object__orbit--two" />
-          </motion.div>
-
-          <div className="journey-visual__copy">
-            <AnimatePresence mode="wait" initial={false}>
-              <motion.div
-                key={currentStep.number}
-                initial={reduceMotion ? false : { opacity: 0, y: 12 }}
-                animate={{ opacity: 1, y: 0 }}
-                exit={reduceMotion ? undefined : { opacity: 0, y: -10 }}
-                transition={reduceMotion ? { duration: 0 } : { duration: 0.34 }}
-              >
-                <span>{currentStep.number}</span>
-                <strong>{currentStep.title}</strong>
-              </motion.div>
-            </AnimatePresence>
-          </div>
+          <InvestmentDevice
+            step={currentStep}
+            activeIndex={activeStep}
+            total={investorSteps.length}
+          />
         </div>
       </div>
 
