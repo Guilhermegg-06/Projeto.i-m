@@ -52,11 +52,15 @@ export function InvestmentDevice({ step, activeIndex, total }: InvestmentDeviceP
   }
 
   return (
-    <div className="investment-device-stage" onPointerMove={updatePointer} onPointerLeave={resetPointer}>
+    <div
+      className="investment-device-stage"
+      onPointerDown={updatePointer}
+      onPointerMove={updatePointer}
+      onPointerLeave={resetPointer}
+    >
       <motion.div
         className="investment-device"
         style={reduceMotion ? undefined : { rotateX, rotateY, x: shiftX, y: shiftY }}
-        whileTap={reduceMotion ? undefined : { scale: 0.985 }}
       >
         <div className="investment-device__screen">
           <div className="investment-device__topline">
