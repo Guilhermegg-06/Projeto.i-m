@@ -70,11 +70,34 @@ export function NetworkGlobe() {
   const rendererMountRef = useRef<HTMLDivElement>(null)
   const targetRotationRef = useRef({ x: 0.08, y: -0.82 })
   const [status, setStatus] = useState<GlobeStatus>('loading')
+  const [shouldLoad, setShouldLoad] = useState(false)
   const reduceMotion = Boolean(useReducedMotion())
 
   useEffect(() => {
     const mount = rendererMountRef.current
     if (!mount) return
+
+    if (typeof IntersectionObserver === 'undefined') {
+      const frame = requestAnimationFrame(() => setShouldLoad(true))
+      return () => cancelAnimationFrame(frame)
+    }
+
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (!entry.isIntersecting) return
+        setShouldLoad(true)
+        observer.disconnect()
+      },
+      { rootMargin: '640px 0px' },
+    )
+
+    observer.observe(mount)
+    return () => observer.disconnect()
+  }, [])
+
+  useEffect(() => {
+    const mount = rendererMountRef.current
+    if (!mount || !shouldLoad) return
 
     let disposed = false
     let animationFrame = 0
@@ -155,7 +178,9 @@ export function NetworkGlobe() {
           .arcStroke(isCompact ? 0.46 : 0.38)
           .arcDashLength(reduceMotion ? 1 : 0.38)
           .arcDashGap(reduceMotion ? 0 : 0.22)
-          .arcDashInitialGap((arc) => (arc as Connection).order * 0.07)
+          .arcDashInitialGap((arc) =>
+            reduceMotion ? 0 : (arc as Connection).order * 0.07,
+          )
           .arcDashAnimateTime(reduceMotion ? 0 : 2400)
           .arcsTransitionDuration(reduceMotion ? 0 : 900)
           .pointsData(hubs)
@@ -166,7 +191,7 @@ export function NetworkGlobe() {
           .pointAltitude(0.018)
           .pointResolution(isCompact ? 8 : 12)
           .pointsMerge(true)
-          .ringsData(hubs)
+          .ringsData(reduceMotion ? [] : hubs)
           .ringLat('lat')
           .ringLng('lng')
           .ringColor((ring: object) => {
@@ -321,7 +346,7 @@ export function NetworkGlobe() {
       delete mount.dataset.ready
       delete mount.dataset.dragging
     }
-  }, [reduceMotion])
+  }, [reduceMotion, shouldLoad])
 
   const handleKeyDown = (event: ReactKeyboardEvent<HTMLDivElement>) => {
     if (event.key === 'ArrowLeft' || event.key === 'ArrowRight') {
