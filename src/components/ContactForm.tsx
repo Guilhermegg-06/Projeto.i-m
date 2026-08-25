@@ -1,6 +1,7 @@
 import { ArrowUpRight, LockKeyhole } from 'lucide-react'
 import { useState, type FormEvent } from 'react'
 import { formOptions, links } from '../content'
+import { PrimaryButton } from './PrimaryAction'
 
 function Options({ options }: { options: { value: string; label: string }[] }) {
   return options.map((option) => (
@@ -142,9 +143,13 @@ export function ContactForm() {
         </label>
       </div>
 
-      <button className="button button--accent button--submit" type="submit">
-        Enviar mensagem <ArrowUpRight aria-hidden="true" />
-      </button>
+      <PrimaryButton
+        className="button--submit"
+        type="submit"
+        icon={<ArrowUpRight aria-hidden="true" />}
+      >
+        Enviar mensagem
+      </PrimaryButton>
 
       <p className="form-privacy">
         <LockKeyhole size={14} aria-hidden="true" />
@@ -167,4 +172,3 @@ export function ContactForm() {
     </form>
   )
 }
-

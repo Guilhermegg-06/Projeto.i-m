@@ -19,7 +19,7 @@ export const pillars = [
   {
     title: 'Rentabilidade',
     description:
-      'Foco absoluto no retorno do investidor — em todos os perfis e tickets.',
+      'Foco absoluto no retorno do investidor, em todos os perfis e tickets.',
   },
   {
     title: 'Ecossistema',
@@ -43,7 +43,7 @@ export const ecosystem = [
     number: '02',
     title: 'IM Capital',
     description:
-      'Estruturação de crédito imobiliário sob medida — financiamento, consórcio ou home equity — para potencializar o investimento sem comprometer a rentabilidade.',
+      'Estruturação de crédito imobiliário sob medida, com financiamento, consórcio ou home equity, para potencializar o investimento sem comprometer a rentabilidade.',
   },
   {
     number: '03',
@@ -55,7 +55,7 @@ export const ecosystem = [
     number: '04',
     title: 'Halugo',
     description:
-      'Gestão completa de locação — divulgação em plataformas como Airbnb, enxoval, manutenção e operação. Fazemos o imóvel performar como um anfitrião profissional.',
+      'Gestão completa de locação, com divulgação em plataformas como Airbnb, enxoval, manutenção e operação. Fazemos o imóvel performar como um anfitrião profissional.',
   },
   {
     number: '05',
@@ -153,7 +153,7 @@ export const profiles = [
   {
     name: 'Renda Mensal',
     intro: 'Para quem busca renda passiva consistente',
-    value: '0,7 – 1,2%',
+    value: '0,7 a 1,2%',
     period: 'ao mês',
     features: [
       'Imóveis prontos para locação',
@@ -223,11 +223,11 @@ export const formOptions = {
   ],
   investments: [
     { value: 'ate-350k', label: 'Até R$ 350 mil' },
-    { value: '350-500k', label: 'R$ 350 mil – R$ 500 mil' },
-    { value: '500-750k', label: 'R$ 500 mil – R$ 750 mil' },
-    { value: '750k-1m', label: 'R$ 750 mil – R$ 1 milhão' },
-    { value: '1-1.5m', label: 'R$ 1 milhão – R$ 1,5 milhão' },
-    { value: '1.5-3m', label: 'R$ 1,5 milhão – R$ 3 milhões' },
+    { value: '350-500k', label: 'R$ 350 mil a R$ 500 mil' },
+    { value: '500-750k', label: 'R$ 500 mil a R$ 750 mil' },
+    { value: '750k-1m', label: 'R$ 750 mil a R$ 1 milhão' },
+    { value: '1-1.5m', label: 'R$ 1 milhão a R$ 1,5 milhão' },
+    { value: '1.5-3m', label: 'R$ 1,5 milhão a R$ 3 milhões' },
     { value: 'acima-3m', label: 'Acima de R$ 3 milhões' },
   ],
   propertyTypes: [
@@ -240,4 +240,3 @@ export const formOptions = {
     { value: '2-quartos', label: '2 quartos' },
   ],
 }
-

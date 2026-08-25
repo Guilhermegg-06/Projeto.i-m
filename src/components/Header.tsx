@@ -1,8 +1,15 @@
-import { AnimatePresence, motion, useReducedMotion } from 'framer-motion'
+import {
+  AnimatePresence,
+  motion,
+  useMotionValueEvent,
+  useReducedMotion,
+  useScroll,
+} from 'framer-motion'
 import { ArrowUpRight, Menu, X } from 'lucide-react'
 import { useEffect, useRef, useState } from 'react'
 import { links } from '../content'
 import { Brand } from './Brand'
+import { PrimaryLink } from './PrimaryAction'
 
 const navItems = [
   { label: 'Sobre', href: '#sobre' },
@@ -17,13 +24,11 @@ export function Header() {
   const menuPanelRef = useRef<HTMLDivElement>(null)
   const menuButtonRef = useRef<HTMLButtonElement>(null)
   const reduceMotion = useReducedMotion()
+  const { scrollY } = useScroll()
 
-  useEffect(() => {
-    const onScroll = () => setScrolled(window.scrollY > 24)
-    onScroll()
-    window.addEventListener('scroll', onScroll, { passive: true })
-    return () => window.removeEventListener('scroll', onScroll)
-  }, [])
+  useMotionValueEvent(scrollY, 'change', (latest) => {
+    setScrolled(latest > 24)
+  })
 
   useEffect(() => {
     if (!menuOpen) return
@@ -63,7 +68,10 @@ export function Header() {
     }
   }, [menuOpen])
 
-  const closeMenu = () => setMenuOpen(false)
+  const closeMenu = () => {
+    setMenuOpen(false)
+    window.setTimeout(() => menuButtonRef.current?.focus(), 0)
+  }
 
   return (
     <>
@@ -72,7 +80,7 @@ export function Header() {
       </a>
       <header className={`site-header${scrolled ? ' site-header--scrolled' : ''}`}>
         <div className="site-header__inner container">
-          <a className="site-header__brand" href="#inicio" aria-label="IMvester — início">
+          <a className="site-header__brand" href="#inicio" aria-label="IMvester, início">
             <Brand />
           </a>
 
@@ -93,14 +101,14 @@ export function Header() {
             >
               Trabalhe conosco <ArrowUpRight size={15} aria-hidden="true" />
             </a>
-            <a
-              className="button button--small button--accent"
+            <PrimaryLink
+              className="uiverse-button--compact"
               href={links.whatsapp}
               target="_blank"
               rel="noreferrer"
             >
               Falar no WhatsApp
-            </a>
+            </PrimaryLink>
           </div>
 
           <button
@@ -147,9 +155,8 @@ export function Header() {
                 </button>
               </div>
               <nav aria-label="Navegação mobile">
-                {navItems.map((item, index) => (
+                {navItems.map((item) => (
                   <a key={item.href} href={item.href} onClick={closeMenu}>
-                    <span>0{index + 1}</span>
                     {item.label}
                     <ArrowUpRight aria-hidden="true" />
                   </a>
@@ -157,21 +164,20 @@ export function Header() {
               </nav>
               <div className="mobile-menu__actions">
                 <a
-                  className="button button--outline"
+                  className="secondary-action secondary-action--full"
                   href={links.careers}
                   target="_blank"
                   rel="noreferrer"
                 >
                   Trabalhe conosco
                 </a>
-                <a
-                  className="button button--accent"
+                <PrimaryLink
                   href={links.whatsapp}
                   target="_blank"
                   rel="noreferrer"
                 >
                   Falar no WhatsApp
-                </a>
+                </PrimaryLink>
               </div>
             </motion.div>
           </motion.div>
@@ -180,4 +186,3 @@ export function Header() {
     </>
   )
 }
-

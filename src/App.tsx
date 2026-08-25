@@ -1,14 +1,12 @@
 import { motion, useReducedMotion, useScroll, useTransform } from 'framer-motion'
 import {
-  ArrowDown,
   ArrowRight,
   ArrowUpRight,
   Building2,
-  Check,
+  Camera,
   CircleDollarSign,
   Compass,
   Gem,
-  Camera,
   Mail,
   MessageCircle,
   Quote,
@@ -22,15 +20,16 @@ import { useRef } from 'react'
 import { Brand } from './components/Brand'
 import { ContactForm } from './components/ContactForm'
 import { Header } from './components/Header'
+import { InvestmentProfiles } from './components/InvestmentProfiles'
+import { InvestorJourney } from './components/InvestorJourney'
+import { PrimaryLink } from './components/PrimaryAction'
 import { Reveal } from './components/Reveal'
 import { SectionHeading } from './components/SectionHeading'
 import {
   casamarBenefits,
   ecosystem,
-  investorSteps,
   links,
   pillars,
-  profiles,
   stats,
   testimonials,
 } from './content'
@@ -48,16 +47,29 @@ const benefitIcons = [TrendingUp, Compass, Sparkles, Building2, ShieldCheck, Gem
 
 function App() {
   const heroRef = useRef<HTMLElement>(null)
+  const aboutRef = useRef<HTMLElement>(null)
+  const casamarRef = useRef<HTMLElement>(null)
   const reduceMotion = useReducedMotion()
+
   const { scrollYProgress: heroScroll } = useScroll({
     target: heroRef,
     offset: ['start start', 'end start'],
   })
-  const { scrollYProgress } = useScroll()
-  const heroImageY = useTransform(heroScroll, [0, 1], ['0%', '16%'])
-  const heroImageScale = useTransform(heroScroll, [0, 1], [1.02, 1.13])
-  const sculptureX = useTransform(scrollYProgress, [0.12, 0.38, 0.7], ['-5vw', '5vw', '-2vw'])
-  const sculptureRotate = useTransform(scrollYProgress, [0.12, 0.7], [-12, 14])
+  const { scrollYProgress: aboutScroll } = useScroll({
+    target: aboutRef,
+    offset: ['start end', 'end start'],
+  })
+  const { scrollYProgress: casamarScroll } = useScroll({
+    target: casamarRef,
+    offset: ['start end', 'end start'],
+  })
+
+  const heroImageY = useTransform(heroScroll, [0, 1], ['0%', '12%'])
+  const heroImageScale = useTransform(heroScroll, [0, 1], [1.02, 1.1])
+  const aboutImageX = useTransform(aboutScroll, [0, 1], [-28, 28])
+  const aboutImageRotate = useTransform(aboutScroll, [0, 1], [-1.6, 1.6])
+  const casamarImageX = useTransform(casamarScroll, [0, 1], [34, -34])
+  const casamarImageScale = useTransform(casamarScroll, [0, 1], [1.08, 1.01])
 
   return (
     <div className="site-shell">
@@ -75,7 +87,6 @@ function App() {
               style={reduceMotion ? undefined : { y: heroImageY, scale: heroImageScale }}
             />
             <div className="hero__veil" />
-            <div className="hero__grain" />
           </div>
 
           <div className="hero__content container">
@@ -86,86 +97,74 @@ function App() {
                 <span>de investir em imóveis.</span>
               </h1>
               <p className="hero__intro">
-                Um ecossistema completo de rentabilidade imobiliária — do
-                lançamento ao crédito, da decoração à locação. Lux Realty para
-                alto padrão, IMvester para todos os perfis de investidor.
+                Um ecossistema completo de rentabilidade imobiliária, do lançamento
+                ao crédito, da decoração à locação.
               </p>
               <div className="hero__actions">
-                <a className="button button--accent" href={links.contact}>
-                  Investir <ArrowRight aria-hidden="true" />
-                </a>
+                <PrimaryLink href={links.contact} icon={<ArrowRight aria-hidden="true" />}>
+                  Investir
+                </PrimaryLink>
                 <a
-                  className="button button--glass"
+                  className="secondary-action secondary-action--light"
                   href={links.whatsapp}
                   target="_blank"
                   rel="noreferrer"
                 >
-                  <MessageCircle aria-hidden="true" /> Falar no WhatsApp
+                  <MessageCircle aria-hidden="true" />
+                  Falar no WhatsApp
                 </a>
               </div>
             </Reveal>
 
-            <Reveal className="hero__stats" delay={0.18}>
+            <div className="hero__signature" aria-hidden="true">
+              <span>IM</span>
+            </div>
+          </div>
+        </section>
+
+        <section className="proof-bar" aria-label="Indicadores da IMvester">
+          <div className="container proof-bar__inner">
+            <div className="proof-bar__stats">
               {stats.map((stat) => (
-                <div className="hero-stat" key={stat.label}>
+                <div className="proof-stat" key={stat.label}>
                   <strong>{stat.value}</strong>
                   <span>{stat.label}</span>
                 </div>
               ))}
-            </Reveal>
+            </div>
+            <p>
+              Lux Realty para alto padrão. IMvester para todos os perfis de investidor.
+            </p>
           </div>
-
-          <a className="scroll-cue" href="#sobre">
-            <span>Role para descobrir</span>
-            <ArrowDown aria-hidden="true" />
-          </a>
         </section>
 
-        <section id="sobre" className="about section section-anchor">
+        <section ref={aboutRef} id="sobre" className="about section section-anchor">
           <div className="container about__grid">
-            <Reveal className="about__visual">
-              <div className="about__image-wrap">
-                <img
-                  src="/assets/imvester-team.jpg"
-                  alt="Equipe IMvester em reunião com vista para a cidade"
-                  width="1600"
-                  height="1280"
-                  loading="lazy"
-                />
-                <div className="about__badge">
-                  <strong>10+</strong>
-                  <span>Anos transformando o mercado imobiliário</span>
-                </div>
-              </div>
-            </Reveal>
-
             <div className="about__content">
               <Reveal>
-                <SectionHeading
-                  eyebrow="Sobre a IMvester"
-                  title="Gestão patrimonial com foco em resultado."
-                />
+                <SectionHeading title="Gestão patrimonial com foco em resultado." />
               </Reveal>
-              <Reveal delay={0.08}>
+
+              <Reveal className="about__copy" delay={0.06}>
                 <p className="lead-copy">
-                  Estruturação e gestão de ativos imobiliários com foco em
-                  segurança, eficiência e resultado financeiro.
+                  Estruturação e gestão de ativos imobiliários com foco em segurança,
+                  eficiência e resultado financeiro.
                 </p>
                 <p>
-                  Nossa equipe atua de forma estratégica, interpretando com
-                  clareza o perfil e os objetivos de cada investidor para oferecer
-                  soluções bem fundamentadas.
+                  Nossa equipe atua de forma estratégica, interpretando com clareza o
+                  perfil e os objetivos de cada investidor para oferecer soluções bem
+                  fundamentadas.
                 </p>
                 <p>
                   A IMvester se posiciona como uma gestora patrimonial que antecipa
-                  movimentos do mercado e entrega assessoria especializada em
-                  produtos exclusivos e de alto padrão.
+                  movimentos do mercado e entrega assessoria especializada em produtos
+                  exclusivos e de alto padrão.
                 </p>
               </Reveal>
 
               <div className="pillars">
                 {pillars.map((pillar, index) => (
-                  <Reveal className="pillar" delay={index * 0.06} key={pillar.title}>
+                  <Reveal className="pillar-row" delay={index * 0.05} key={pillar.title}>
                     <span>0{index + 1}</span>
                     <div>
                       <h3>{pillar.title}</h3>
@@ -175,106 +174,128 @@ function App() {
                 ))}
               </div>
             </div>
+
+            <Reveal className="about__visual" delay={0.08}>
+              <figure>
+                <div className="about__image-wrap">
+                  <motion.img
+                    src="/assets/imvester-team.jpg"
+                    alt="Equipe IMvester em reunião com vista para a cidade"
+                    width="1600"
+                    height="1280"
+                    loading="lazy"
+                    style={reduceMotion ? undefined : { x: aboutImageX, rotate: aboutImageRotate }}
+                  />
+                </div>
+                <figcaption>
+                  <strong>10+</strong>
+                  <span>Anos transformando o mercado imobiliário</span>
+                </figcaption>
+              </figure>
+            </Reveal>
           </div>
         </section>
 
         <section id="ecossistema" className="ecosystem-section section section-anchor">
-          <motion.div
-            className="architectural-sculpture"
-            aria-hidden="true"
-            style={reduceMotion ? undefined : { x: sculptureX, rotate: sculptureRotate }}
-          >
-            <span className="architectural-sculpture__core" />
-            <span className="architectural-sculpture__ring architectural-sculpture__ring--one" />
-            <span className="architectural-sculpture__ring architectural-sculpture__ring--two" />
-          </motion.div>
-
           <div className="container">
-            <Reveal>
-              <SectionHeading
-                eyebrow="Nosso modelo de atuação"
-                title="Como a IMvester pode te ajudar."
-                description="Verticais integradas que cobrem todo o ciclo do investimento imobiliário — do lançamento ao recebimento do aluguel."
-                light
-              />
-            </Reveal>
-
-            <div className="ecosystem-grid">
-              {ecosystem.map((item, index) => {
-                const Icon = ecosystemIcons[index]
-                return (
-                  <Reveal className="ecosystem-card" delay={(index % 3) * 0.07} key={item.number}>
-                    <div className="ecosystem-card__top">
-                      <span>{item.number}</span>
-                      <Icon aria-hidden="true" />
-                    </div>
-                    <h3>{item.title}</h3>
-                    <p>{item.description}</p>
-                    <span className="ecosystem-card__line" />
-                  </Reveal>
-                )
-              })}
+            <div className="ecosystem-section__heading">
+              <Reveal>
+                <SectionHeading
+                  title="Como a IMvester pode te ajudar."
+                  description="Verticais integradas que cobrem todo o ciclo do investimento imobiliário, do lançamento ao recebimento do aluguel."
+                  light
+                />
+              </Reveal>
+              <Reveal className="ecosystem-section__statement" delay={0.08}>
+                <span>Um único parceiro.</span>
+                <strong>Todas as soluções para o seu próximo investimento.</strong>
+              </Reveal>
             </div>
 
-            <Reveal className="ecosystem-conclusion">
-              <p>Um único parceiro.</p>
-              <strong>Todas as soluções para o seu próximo investimento.</strong>
-            </Reveal>
+            <div className="ecosystem-layout">
+              <aside className="ecosystem-aside" aria-hidden="true">
+                <div className="ecosystem-monolith">
+                  <span className="ecosystem-monolith__face" />
+                  <span className="ecosystem-monolith__edge" />
+                </div>
+              </aside>
+
+              <div className="service-list">
+                {ecosystem.map((item, index) => {
+                  const Icon = ecosystemIcons[index]
+                  return (
+                    <Reveal className="service-row" delay={(index % 2) * 0.05} key={item.number}>
+                      <div className="service-row__meta">
+                        <Icon aria-hidden="true" />
+                        <span>{item.number}</span>
+                      </div>
+                      <div className="service-row__body">
+                        <h3>{item.title}</h3>
+                        <p>{item.description}</p>
+                      </div>
+                      <ArrowUpRight className="service-row__arrow" aria-hidden="true" />
+                    </Reveal>
+                  )
+                })}
+              </div>
+            </div>
           </div>
         </section>
 
-        <section id="destaque" className="casamar section section-anchor">
-          <div className="container casamar__grid">
-            <Reveal className="casamar__visual">
-              <div className="casamar__image-wrap">
-                <img
-                  src="/assets/casamar-artefacto.jpg"
-                  alt="CasaMar Artefacto, empreendimento residencial em cenário litorâneo"
-                  width="1280"
-                  height="1600"
-                  loading="lazy"
-                />
-                <div className="casamar__rate">
-                  <span>Renda passiva premium</span>
-                  <strong>a partir de 0,8% a.m.</strong>
-                </div>
+        <section ref={casamarRef} id="destaque" className="casamar section section-anchor">
+          <div className="container casamar__stage">
+            <motion.div
+              className="casamar__visual"
+              style={reduceMotion ? undefined : { x: casamarImageX }}
+            >
+              <motion.img
+                src="/assets/casamar-artefacto.jpg"
+                alt="CasaMar Artefacto, empreendimento residencial em cenário litorâneo"
+                width="1280"
+                height="1600"
+                loading="lazy"
+                style={reduceMotion ? undefined : { scale: casamarImageScale }}
+              />
+            </motion.div>
+
+            <Reveal className="casamar__panel">
+              <SectionHeading
+                eyebrow="Destaque do mês"
+                title="CasaMar Artefacto"
+                description="Investimento patrimonial com a maior rentabilidade do mercado. Localização premium, gestão profissional e seis razões para começar hoje."
+                light
+              />
+
+              <div className="casamar__rate">
+                <span>Renda passiva premium</span>
+                <strong>a partir de 0,8% a.m.</strong>
               </div>
-            </Reveal>
 
-            <div className="casamar__content">
-              <Reveal>
-                <SectionHeading
-                  eyebrow="Destaque do mês"
-                  title="CasaMar Artefacto"
-                  description="Investimento patrimonial com a maior rentabilidade do mercado. Localização premium, gestão profissional e seis razões para começar hoje."
-                />
-              </Reveal>
-
-              <div className="benefits-grid">
+              <div className="benefits-list">
                 {casamarBenefits.map((benefit, index) => {
                   const Icon = benefitIcons[index]
                   return (
-                    <Reveal className="benefit" delay={(index % 2) * 0.06} key={benefit.title}>
+                    <div className="benefit-row" key={benefit.title}>
                       <Icon aria-hidden="true" />
                       <div>
                         <h3>{benefit.title}</h3>
                         <p>{benefit.description}</p>
                       </div>
-                    </Reveal>
+                    </div>
                   )
                 })}
               </div>
 
-              <Reveal className="casamar__actions">
-                <a className="button button--dark" href={links.contact}>
-                  Quero investir <ArrowRight aria-hidden="true" />
-                </a>
+              <div className="casamar__actions">
+                <PrimaryLink href={links.contact} icon={<ArrowRight aria-hidden="true" />}>
+                  Quero investir
+                </PrimaryLink>
                 <p className="investment-note">
-                  Rentabilidades divulgadas são estimativas e não representam
-                  garantia de retorno futuro.
+                  Rentabilidades divulgadas são estimativas e não representam garantia
+                  de retorno futuro.
                 </p>
-              </Reveal>
-            </div>
+              </div>
+            </Reveal>
           </div>
         </section>
 
@@ -282,31 +303,12 @@ function App() {
           <div className="container">
             <Reveal>
               <SectionHeading
-                eyebrow="Passo a passo"
                 title="Guia do investidor."
-                description="Da definição do perfil ao relacionamento de longo prazo — cada etapa estruturada para maximizar segurança, valorização e rentabilidade."
+                description="Da definição do perfil ao relacionamento de longo prazo, cada etapa é estruturada para maximizar segurança, valorização e rentabilidade."
+                light
               />
             </Reveal>
-
-            <div className="timeline">
-              <div className="timeline__rail" aria-hidden="true">
-                <motion.span
-                  initial={reduceMotion ? false : { scaleY: 0 }}
-                  whileInView={{ scaleY: 1 }}
-                  viewport={{ once: true, amount: 0.1 }}
-                  transition={{ duration: 1.8, ease: [0.22, 1, 0.36, 1] }}
-                />
-              </div>
-              {investorSteps.map((step, index) => (
-                <Reveal className="timeline-item" key={step.number} delay={(index % 2) * 0.05}>
-                  <span className="timeline-item__number">{step.number}</span>
-                  <div>
-                    <h3>{step.title}</h3>
-                    <p>{step.description}</p>
-                  </div>
-                </Reveal>
-              ))}
-            </div>
+            <InvestorJourney />
           </div>
         </section>
 
@@ -314,53 +316,27 @@ function App() {
           <div className="container">
             <Reveal>
               <SectionHeading
-                eyebrow="Estratégias para cada objetivo"
                 title="Encontre o investimento que conversa com você."
                 description="Três caminhos possíveis, uma mesma curadoria patrimonial."
-                align="center"
+                light
               />
             </Reveal>
 
-            <div className="profiles-grid">
-              {profiles.map((profile, index) => (
-                <Reveal
-                  className={`profile-card${profile.featured ? ' profile-card--featured' : ''}`}
-                  delay={index * 0.06}
-                  key={profile.name}
-                >
-                  {profile.featured && <span className="profile-card__tag">Mais escolhido</span>}
-                  <p className="profile-card__index">0{index + 1}</p>
-                  <h3>{profile.name}</h3>
-                  <p className="profile-card__intro">{profile.intro}</p>
-                  <div className="profile-card__value">
-                    <strong>{profile.value}</strong>
-                    <span>{profile.period}</span>
-                  </div>
-                  <ul>
-                    {profile.features.map((feature) => (
-                      <li key={feature}>
-                        <Check aria-hidden="true" /> {feature}
-                      </li>
-                    ))}
-                  </ul>
-                  <a className="profile-card__link" href={links.contact}>
-                    Quero saber mais <ArrowUpRight aria-hidden="true" />
-                  </a>
-                </Reveal>
-              ))}
-            </div>
+            <Reveal delay={0.08}>
+              <InvestmentProfiles />
+            </Reveal>
 
             <Reveal className="consultation-banner">
               <div>
                 <span>Não sabe por onde começar?</span>
                 <h3>
-                  Agende uma consultoria gratuita e descubra o melhor caminho para
-                  o seu patrimônio.
+                  Agende uma consultoria gratuita e descubra o melhor caminho para o
+                  seu patrimônio.
                 </h3>
               </div>
-              <a className="button button--ivory" href={links.contact}>
-                Agendar consultoria <ArrowRight aria-hidden="true" />
-              </a>
+              <PrimaryLink href={links.contact} icon={<ArrowRight aria-hidden="true" />}>
+                Agendar consultoria
+              </PrimaryLink>
             </Reveal>
           </div>
         </section>
@@ -372,24 +348,25 @@ function App() {
                 <SectionHeading
                   eyebrow="Avaliações do Google"
                   title="Histórias reais de quem confiou."
+                  light
                 />
               </Reveal>
               <Reveal className="google-rating" delay={0.08}>
                 <strong>5,0</strong>
-                <span>
+                <span aria-label="5 de 5 estrelas">
                   {[0, 1, 2, 3, 4].map((star) => (
                     <Star key={star} fill="currentColor" aria-hidden="true" />
                   ))}
                 </span>
-                <small>centenas de avaliações</small>
+                <small>Centenas de avaliações</small>
               </Reveal>
             </div>
 
-            <div className="testimonials-grid">
-              {testimonials.map((testimonial, index) => (
-                <Reveal className="testimonial-card" delay={index * 0.07} key={testimonial.name}>
+            <div className="testimonial-track">
+              {testimonials.map((testimonial) => (
+                <article className="testimonial-card" key={testimonial.name}>
                   <Quote aria-hidden="true" />
-                  <blockquote>“{testimonial.quote}”</blockquote>
+                  <blockquote title={testimonial.quote}>“{testimonial.quote}”</blockquote>
                   <div className="testimonial-card__author">
                     <span>{testimonial.name.charAt(0)}</span>
                     <p>
@@ -397,7 +374,7 @@ function App() {
                       <small>{testimonial.date}</small>
                     </p>
                   </div>
-                </Reveal>
+                </article>
               ))}
             </div>
           </div>
@@ -407,8 +384,8 @@ function App() {
           <div className="container contact__grid">
             <div className="contact__content">
               <Reveal>
+                <p className="contact__invitation">Vamos conversar.</p>
                 <SectionHeading
-                  eyebrow="Vamos conversar"
                   title="Entre em contato para investir com alta rentabilidade e valorização."
                   description="Acompanhe nosso Instagram para receber as melhores oportunidades."
                   light
@@ -452,14 +429,14 @@ function App() {
       <footer className="footer">
         <div className="container footer__grid">
           <div className="footer__brand-column">
-            <a href="#inicio" aria-label="IMvester — voltar ao início"><Brand /></a>
+            <a href="#inicio" aria-label="IMvester, voltar ao início"><Brand /></a>
             <p>Gestão patrimonial com foco em segurança, eficiência e resultado financeiro.</p>
           </div>
 
           <div>
             <h3>Ecossistema</h3>
             <ul>
-              {['IM Lançamento', 'IM Capital · Crédito', 'IM Decor', 'Halugo · Gestão de locação', 'IM Terceiros', 'IM Lux · Alto padrão'].map((item) => (
+              {['IM Lançamento', 'IM Capital, Crédito', 'IM Decor', 'Halugo, Gestão de locação', 'IM Terceiros', 'IM Lux, Alto padrão'].map((item) => (
                 <li key={item}><a href="#ecossistema">{item}</a></li>
               ))}
             </ul>
@@ -482,13 +459,13 @@ function App() {
               <li><a href={links.phone}>+55 (11) 91175-2888</a></li>
               <li><a href={links.email}>ativacao@imvester.com.br</a></li>
               <li><a href={links.instagram} target="_blank" rel="noreferrer">@imvester.br</a></li>
-              <li>São Paulo · Brasil</li>
+              <li>São Paulo, Brasil</li>
             </ul>
           </div>
         </div>
 
         <div className="container footer__bottom">
-          <span>© 2026 IMvester · Todos os direitos reservados.</span>
+          <span>© 2026 IMvester. Todos os direitos reservados.</span>
           <span>Crafted with elegance</span>
         </div>
       </footer>
@@ -508,4 +485,3 @@ function App() {
 }
 
 export default App
-
