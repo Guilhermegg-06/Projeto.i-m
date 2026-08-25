@@ -7,6 +7,7 @@ import { useRef } from 'react'
 import { Brand } from './components/Brand'
 import { ContactForm } from './components/ContactForm'
 import { Header } from './components/Header'
+import { HeroCinematicMedia } from './components/HeroCinematicMedia'
 import { InvestmentProfiles } from './components/InvestmentProfiles'
 import { InvestorJourney } from './components/InvestorJourney'
 import { NetworkGlobe } from './components/NetworkGlobe'
@@ -24,15 +25,10 @@ import {
 } from './content'
 
 function App() {
-  const heroRef = useRef<HTMLElement>(null)
   const aboutRef = useRef<HTMLElement>(null)
   const casamarRef = useRef<HTMLElement>(null)
   const reduceMotion = useReducedMotion()
 
-  const { scrollYProgress: heroScroll } = useScroll({
-    target: heroRef,
-    offset: ['start start', 'end start'],
-  })
   const { scrollYProgress: aboutScroll } = useScroll({
     target: aboutRef,
     offset: ['start end', 'end start'],
@@ -42,8 +38,6 @@ function App() {
     offset: ['start end', 'end start'],
   })
 
-  const heroImageY = useTransform(heroScroll, [0, 1], ['0%', '12%'])
-  const heroImageScale = useTransform(heroScroll, [0, 1], [1.02, 1.1])
   const aboutImageX = useTransform(aboutScroll, [0, 1], [-28, 28])
   const aboutImageRotate = useTransform(aboutScroll, [0, 1], [-1.6, 1.6])
   const casamarImageX = useTransform(casamarScroll, [0, 1], [34, -34])
@@ -54,18 +48,8 @@ function App() {
       <Header />
 
       <main id="conteudo">
-        <section ref={heroRef} id="inicio" className="hero section-anchor">
-          <div className="hero__media" aria-hidden="true">
-            <motion.img
-              src="/assets/imvester-hero-architecture.webp"
-              alt=""
-              width="1536"
-              height="1024"
-              fetchPriority="high"
-              style={reduceMotion ? undefined : { y: heroImageY, scale: heroImageScale }}
-            />
-            <div className="hero__veil" />
-          </div>
+        <section id="inicio" className="hero section-anchor">
+          <HeroCinematicMedia />
 
           <div className="hero__content container">
             <Reveal className="hero__copy">

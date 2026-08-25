@@ -561,13 +561,23 @@ h3 {
 }
 
 .hero__media,
-.hero__media img,
+.hero__camera,
+.hero__camera img,
 .hero__veil {
   position: absolute;
   inset: 0;
 }
 
-.hero__media img {
+.hero__media {
+  perspective: 1400px;
+}
+
+.hero__camera {
+  inset: -5%;
+  transform-style: preserve-3d;
+}
+
+.hero__camera img {
   width: 100%;
   height: 100%;
   object-fit: cover;
@@ -575,7 +585,27 @@ h3 {
   filter: saturate(0.78) contrast(1.05);
 }
 
+.hero__drone-light {
+  position: absolute;
+  z-index: 1;
+  top: -18%;
+  bottom: -18%;
+  left: 38%;
+  width: 24%;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(233, 120, 61, 0.07),
+    rgba(240, 242, 237, 0.09),
+    transparent
+  );
+  filter: blur(34px);
+  pointer-events: none;
+  transform: rotate(8deg);
+}
+
 .hero__veil {
+  z-index: 2;
   background:
     linear-gradient(90deg, rgba(4, 10, 7, 0.98) 0%, rgba(4, 10, 7, 0.9) 36%, rgba(4, 10, 7, 0.34) 68%, rgba(4, 10, 7, 0.28) 100%),
     linear-gradient(0deg, rgba(4, 10, 7, 0.78) 0%, transparent 42%);
