@@ -202,6 +202,7 @@
   position: relative;
   isolation: isolate;
   aspect-ratio: 1;
+  min-height: 320px;
 }
 
 .network-globe__stage::before {
@@ -227,22 +228,89 @@
   pointer-events: none;
 }
 
-.network-globe canvas {
+.network-globe__renderer {
+  position: absolute;
+  z-index: 1;
+  inset: 0;
+  opacity: 0;
+  outline: 0;
+  touch-action: pan-y;
+  transition: opacity 800ms ease, filter 500ms ease;
+}
+
+.network-globe__canvas {
+  display: block;
   width: 100%;
   height: 100%;
-  opacity: 0;
   cursor: grab;
   touch-action: pan-y;
-  transition: opacity 700ms ease, filter 400ms ease;
 }
 
-.network-globe canvas[data-ready='true'] {
+.network-globe[data-status='ready'] .network-globe__renderer {
   opacity: 1;
-  filter: saturate(1.08) contrast(1.07);
+  filter: saturate(1.06) contrast(1.05);
 }
 
-.network-globe canvas:active {
+.network-globe__renderer[data-dragging='true'] .network-globe__canvas {
   cursor: grabbing;
+}
+
+.network-globe__renderer:focus-visible::after {
+  position: absolute;
+  inset: 6%;
+  content: '';
+  border: 1px solid rgba(233, 120, 61, 0.64);
+  border-radius: 50%;
+  box-shadow: 0 0 0 5px rgba(233, 120, 61, 0.08);
+  pointer-events: none;
+}
+
+.network-globe__loading {
+  position: absolute;
+  z-index: 0;
+  inset: 10%;
+  display: grid;
+  place-items: center;
+  border-radius: 50%;
+  background:
+    radial-gradient(circle at 38% 34%, rgba(64, 132, 91, 0.22), transparent 44%),
+    #07120d;
+  box-shadow: inset -28px -24px 70px rgba(0, 0, 0, 0.44);
+}
+
+.network-globe__loading span {
+  width: 44%;
+  aspect-ratio: 1;
+  border: 1px solid rgba(233, 120, 61, 0.2);
+  border-radius: 50%;
+  animation: globe-loading 1.6s linear infinite;
+}
+
+@keyframes globe-loading {
+  to {
+    transform: rotate(360deg) scaleY(0.38);
+  }
+}
+
+.network-globe__gesture {
+  position: absolute;
+  z-index: 3;
+  top: 9%;
+  right: 2%;
+  padding: 8px 10px;
+  color: rgba(228, 236, 230, 0.62);
+  border-top: 1px solid rgba(228, 236, 230, 0.2);
+  font-size: 0.58rem;
+  font-weight: 640;
+  letter-spacing: 0.08em;
+  pointer-events: none;
+  text-transform: uppercase;
+  transition: color 300ms ease, border-color 300ms ease;
+}
+
+.network-globe[data-status='ready']:hover .network-globe__gesture {
+  color: var(--orange-400);
+  border-color: rgba(233, 120, 61, 0.6);
 }
 
 .network-globe__origin {
@@ -728,6 +796,11 @@
     margin-top: -4px;
   }
 
+  .network-globe__gesture {
+    top: 5%;
+    right: 0;
+  }
+
   .service-row,
   .service-row:nth-child(even),
   .service-row:hover,
@@ -807,8 +880,13 @@
     display: none;
   }
 
-  .network-globe canvas {
+  .network-globe__canvas {
     cursor: default;
+  }
+
+  .network-globe__loading span {
+    animation: none;
+    transform: scaleY(0.38);
   }
 
   .service-row:hover .service-row__body h3,
