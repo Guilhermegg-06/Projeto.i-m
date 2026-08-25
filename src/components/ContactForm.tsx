@@ -1,4 +1,4 @@
-import { ArrowUpRight, LockKeyhole } from 'lucide-react'
+import { ArrowUpRight } from 'lucide-react'
 import { useState, type FormEvent } from 'react'
 import { formOptions, links } from '../content'
 import { PrimaryButton } from './PrimaryAction'
@@ -152,7 +152,6 @@ export function ContactForm() {
       </PrimaryButton>
 
       <p className="form-privacy">
-        <LockKeyhole size={14} aria-hidden="true" />
         Seus dados não são enviados sem uma integração segura.
       </p>
 

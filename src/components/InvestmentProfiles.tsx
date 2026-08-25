@@ -1,5 +1,5 @@
 import { AnimatePresence, motion, useReducedMotion } from 'framer-motion'
-import { ArrowRight, Check } from 'lucide-react'
+import { ArrowRight } from 'lucide-react'
 import { useState } from 'react'
 import { links, profiles } from '../content'
 import { PrimaryLink } from './PrimaryAction'
@@ -54,9 +54,11 @@ export function InvestmentProfiles() {
 
           <div className="profile-stage__details">
             <ul>
-              {profile.features.map((feature) => (
+              {profile.features.map((feature, index) => (
                 <li key={feature}>
-                  <Check aria-hidden="true" />
+                  <span className="profile-feature__index" aria-hidden="true">
+                    {String(index + 1).padStart(2, '0')}
+                  </span>
                   <span>{feature}</span>
                 </li>
               ))}

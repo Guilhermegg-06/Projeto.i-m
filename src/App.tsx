@@ -1,20 +1,7 @@
 import { motion, useReducedMotion, useScroll, useTransform } from 'framer-motion'
 import {
   ArrowRight,
-  ArrowUpRight,
-  Building2,
-  Camera,
-  CircleDollarSign,
-  Compass,
-  Gem,
-  Mail,
   MessageCircle,
-  Quote,
-  ShieldCheck,
-  Sparkles,
-  Star,
-  TrendingUp,
-  UsersRound,
 } from 'lucide-react'
 import { useRef } from 'react'
 import { Brand } from './components/Brand'
@@ -22,6 +9,8 @@ import { ContactForm } from './components/ContactForm'
 import { Header } from './components/Header'
 import { InvestmentProfiles } from './components/InvestmentProfiles'
 import { InvestorJourney } from './components/InvestorJourney'
+import { NetworkGlobe } from './components/NetworkGlobe'
+import { PointerReactiveTitle } from './components/PointerReactiveTitle'
 import { PrimaryLink } from './components/PrimaryAction'
 import { Reveal } from './components/Reveal'
 import { SectionHeading } from './components/SectionHeading'
@@ -33,17 +22,6 @@ import {
   stats,
   testimonials,
 } from './content'
-
-const ecosystemIcons = [
-  Building2,
-  CircleDollarSign,
-  Sparkles,
-  TrendingUp,
-  Compass,
-  Gem,
-]
-
-const benefitIcons = [TrendingUp, Compass, Sparkles, Building2, ShieldCheck, Gem]
 
 function App() {
   const heroRef = useRef<HTMLElement>(null)
@@ -92,10 +70,10 @@ function App() {
           <div className="hero__content container">
             <Reveal className="hero__copy">
               <p className="eyebrow eyebrow--light">Bem-vindo à IMvester</p>
-              <h1>
+              <PointerReactiveTitle>
                 Seu novo jeito
                 <span>de investir em imóveis.</span>
-              </h1>
+              </PointerReactiveTitle>
               <p className="hero__intro">
                 Um ecossistema completo de rentabilidade imobiliária, do lançamento
                 ao crédito, da decoração à locação.
@@ -110,7 +88,6 @@ function App() {
                   target="_blank"
                   rel="noreferrer"
                 >
-                  <MessageCircle aria-hidden="true" />
                   Falar no WhatsApp
                 </a>
               </div>
@@ -213,27 +190,21 @@ function App() {
             </div>
 
             <div className="ecosystem-layout">
-              <aside className="ecosystem-aside" aria-hidden="true">
-                <div className="ecosystem-monolith">
-                  <span className="ecosystem-monolith__face" />
-                  <span className="ecosystem-monolith__edge" />
-                </div>
+              <aside className="ecosystem-aside">
+                <NetworkGlobe />
               </aside>
 
               <div className="service-list">
                 {ecosystem.map((item, index) => {
-                  const Icon = ecosystemIcons[index]
                   return (
                     <Reveal className="service-row" delay={(index % 2) * 0.05} key={item.number}>
                       <div className="service-row__meta">
-                        <Icon aria-hidden="true" />
                         <span>{item.number}</span>
                       </div>
                       <div className="service-row__body">
                         <h3>{item.title}</h3>
                         <p>{item.description}</p>
                       </div>
-                      <ArrowUpRight className="service-row__arrow" aria-hidden="true" />
                     </Reveal>
                   )
                 })}
@@ -273,10 +244,11 @@ function App() {
 
               <div className="benefits-list">
                 {casamarBenefits.map((benefit, index) => {
-                  const Icon = benefitIcons[index]
                   return (
                     <div className="benefit-row" key={benefit.title}>
-                      <Icon aria-hidden="true" />
+                      <span className="benefit-row__index" aria-hidden="true">
+                        {String(index + 1).padStart(2, '0')}
+                      </span>
                       <div>
                         <h3>{benefit.title}</h3>
                         <p>{benefit.description}</p>
@@ -354,9 +326,7 @@ function App() {
               <Reveal className="google-rating" delay={0.08}>
                 <strong>5,0</strong>
                 <span role="img" aria-label="5 de 5 estrelas">
-                  {[0, 1, 2, 3, 4].map((star) => (
-                    <Star key={star} fill="currentColor" aria-hidden="true" />
-                  ))}
+                  ★★★★★
                 </span>
                 <small>Centenas de avaliações</small>
               </Reveal>
@@ -369,7 +339,7 @@ function App() {
             >
               {testimonials.map((testimonial) => (
                 <article className="testimonial-card" key={testimonial.name}>
-                  <Quote aria-hidden="true" />
+                  <span className="testimonial-card__quote" aria-hidden="true">“</span>
                   <blockquote title={testimonial.quote}>“{testimonial.quote}”</blockquote>
                   <div className="testimonial-card__author">
                     <span>{testimonial.name.charAt(0)}</span>
@@ -398,24 +368,20 @@ function App() {
 
               <Reveal className="contact-links" delay={0.08}>
                 <a href={links.whatsappDirect} target="_blank" rel="noreferrer">
-                  <MessageCircle aria-hidden="true" />
                   <span><small>WhatsApp</small><strong>+55 (11) 91175-2888</strong></span>
-                  <ArrowUpRight aria-hidden="true" />
+                  <span className="contact-links__arrow" aria-hidden="true">↗</span>
                 </a>
                 <a href={links.email}>
-                  <Mail aria-hidden="true" />
                   <span><small>E-mail</small><strong>ativacao@imvester.com.br</strong></span>
-                  <ArrowUpRight aria-hidden="true" />
+                  <span className="contact-links__arrow" aria-hidden="true">↗</span>
                 </a>
                 <a href={links.instagram} target="_blank" rel="noreferrer">
-                  <Camera aria-hidden="true" />
                   <span><small>Instagram</small><strong>@imvester.br</strong></span>
-                  <ArrowUpRight aria-hidden="true" />
+                  <span className="contact-links__arrow" aria-hidden="true">↗</span>
                 </a>
               </Reveal>
 
               <Reveal className="contact__trust" delay={0.14}>
-                <UsersRound aria-hidden="true" />
                 <span>
                   <strong>Atendimento próximo, análise precisa.</strong>
                   Um especialista acompanha você em cada decisão.
