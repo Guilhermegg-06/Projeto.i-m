@@ -18,8 +18,9 @@ export function SectionHeading({
       className={`section-heading section-heading--${align}${light ? ' section-heading--light' : ''}`}
     >
       {eyebrow && <p className="eyebrow">{eyebrow}</p>}
-      <h2>{title}</h2>
+      <ScrollFloatText>{title}</ScrollFloatText>
       {description && <p className="section-heading__description">{description}</p>}
     </header>
   )
 }
+import { ScrollFloatText } from './ScrollFloatText'
