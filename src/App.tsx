@@ -353,7 +353,7 @@ function App() {
               </Reveal>
               <Reveal className="google-rating" delay={0.08}>
                 <strong>5,0</strong>
-                <span aria-label="5 de 5 estrelas">
+                <span role="img" aria-label="5 de 5 estrelas">
                   {[0, 1, 2, 3, 4].map((star) => (
                     <Star key={star} fill="currentColor" aria-hidden="true" />
                   ))}
@@ -362,7 +362,11 @@ function App() {
               </Reveal>
             </div>
 
-            <div className="testimonial-track">
+            <div
+              className="testimonial-track"
+              tabIndex={0}
+              aria-label="Avaliações de clientes. Use as setas para navegar."
+            >
               {testimonials.map((testimonial) => (
                 <article className="testimonial-card" key={testimonial.name}>
                   <Quote aria-hidden="true" />
